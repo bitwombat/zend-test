@@ -248,14 +248,16 @@ abstract class AbstractControllerTestCase extends TestCase
             parse_str($queryString, $query);
         }
 
+        $params_exist = ( (null !==$params) && (count($params) > 0));
+
         if ($method == HttpRequest::METHOD_POST) {
-            if (count($params) != 0) {
+            if ($params_exist) {
                 $post = $params;
             }
         } elseif ($method == HttpRequest::METHOD_GET) {
             $query = array_merge($query, $params);
         } elseif ($method == HttpRequest::METHOD_PUT || $method == HttpRequest::METHOD_PATCH) {
-            if (count($params) != 0) {
+            if ($params_exist) {
                 $content = http_build_query($params);
                 $request->setContent($content);
             }
